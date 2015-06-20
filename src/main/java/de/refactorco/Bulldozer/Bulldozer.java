@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.impossibl.postgres.jdbc.PGDataSource;
 import com.lexicalscope.jewel.cli.CliFactory;
+import com.lexicalscope.jewel.cli.HelpRequestedException;
 import com.netflix.config.*;
 import com.netflix.config.sources.JDBCConfigurationSource;
 import com.netflix.governator.annotations.AutoBindSingleton;
@@ -46,16 +47,31 @@ public class Bulldozer {
     }
 
     public static void main(String[] args) throws ConfigurationException {
-        final BulldozerArgs arguments = CliFactory.parseArguments(BulldozerArgs.class, args);
-        logger.info("Initializing");
+        System.out.println();
+        System.out.println("______       _ _     _                   ");
+        System.out.println("| ___ \\     | | |   | |                  ");
+        System.out.println("| |_/ /_   _| | | __| | ___ _______ _ __ ");
+        System.out.println("| ___ \\ | | | | |/ _` |/ _ \\_  / _ \\ '__|");
+        System.out.println("| |_/ / |_| | | | (_| | (_) / /  __/ |   ");
+        System.out.println("\\____/ \\__,_|_|_|\\__,_|\\___/___\\___|_|   ");
+        System.out.println();
 
-        HikariDataSource hikariDataSource = initializeDataSource(arguments);
-        initializeConfiguration(arguments, hikariDataSource);
+        try {
+            final BulldozerArgs arguments = CliFactory.parseArguments(BulldozerArgs.class, args);
 
-        Injector injector = initializeInjector();
-        instance = injector.getInstance(Bulldozer.class);
-        instance.dataSource = hikariDataSource;
-        instance.initializeWebServer();
+            logger.info("Initializing");
+
+            HikariDataSource hikariDataSource = initializeDataSource(arguments);
+            initializeConfiguration(arguments, hikariDataSource);
+
+            Injector injector = initializeInjector();
+            instance = injector.getInstance(Bulldozer.class);
+            instance.dataSource = hikariDataSource;
+            instance.initializeWebServer();
+        } catch (HelpRequestedException e) {
+            System.out.println();
+            System.out.println(e.getMessage());
+        }
     }
 
     private static HikariDataSource initializeDataSource(BulldozerArgs arguments) {

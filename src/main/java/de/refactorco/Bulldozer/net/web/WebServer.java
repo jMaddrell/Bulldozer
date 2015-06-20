@@ -11,6 +11,8 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
+import org.eclipse.jetty.servlet.FilterHolder;
+import org.eclipse.jetty.servlets.CloseableDoSFilter;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +30,9 @@ public class WebServer implements Runnable {
 
     @Configuration(value = "de.refactorco.Bulldozer.net.web.WebServer.host")
     private String host;
+
+    @Configuration(value = "de.refactorco.Bulldozer.net.web.WebServer.maxRequestsPerSec")
+    private String maxRequestsPerSec;
 
     private Thread thread;
 
@@ -54,6 +59,10 @@ public class WebServer implements Runnable {
             webApp.addEventListener(new EnvironmentLoaderListener());
             webApp.addEventListener(new BulldozerGuiceServletContextListener());
             webApp.addFilter(GuiceFilter.class, "/*", null);
+
+            FilterHolder dosHolder = new FilterHolder(CloseableDoSFilter.class);
+            dosHolder.setInitParameter("maxRequestsPerSec", maxRequestsPerSec);
+            webApp.addFilter(dosHolder, "/*", null);
 
             HandlerList handlers = new HandlerList();
             handlers.setHandlers(new Handler[]{resourceHandler, webApp});
