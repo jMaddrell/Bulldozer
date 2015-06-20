@@ -1,0 +1,52 @@
+group 'de.refactorco'
+
+apply plugin: 'java'
+
+//noinspection GroovyUnusedAssignment
+sourceCompatibility = 1.7
+//noinspection GroovyUnusedAssignment
+targetCompatibility = 1.7
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    doFirst {
+        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    }
+
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
+
+    manifest {
+        attributes 'Main-Class': 'de.refactorco.Bulldozer.Bulldozer'
+    }
+}
+
+dependencies {
+    compile     group: 'com.zaxxer',                        name: 'HikariCP-java6',                 version: '2.3.2'
+    compile     group: 'net.sf.trove4j',                    name: 'trove4j',                        version: '3.0.3'
+    compile     group: 'com.netflix.governator',            name: 'governator',                     version: '1.3.3'
+    compile     group: 'com.netflix.archaius',              name: 'archaius-core',                  version: '0.6.5'
+    compile     group: 'com.netflix.blitz4j',               name: 'blitz4j',                        version: '1.36.0'
+    compile     group: 'org.slf4j',                         name: 'slf4j-log4j12',                  version: '1.7.10'
+    compile     group: 'com.lexicalscope.jewelcli',         name: 'jewelcli',                       version: '0.8.9'
+    compile     group: 'org.codehaus.jackson',              name: 'jackson-core-asl',               version: '1.9.13'
+    compile     group: 'org.codehaus.jackson',              name: 'jackson-xc',                     version: '1.9.13'
+    compile     group: 'org.codehaus.jackson',              name: 'jackson-mapper-asl',             version: '1.9.13'
+    compile     group: 'org.codehaus.jackson',              name: 'jackson-jaxrs',                  version: '1.9.13'
+    compile     group: 'com.impossibl.pgjdbc-ng',           name: 'pgjdbc-ng',                      version: '0.3'
+    compile     group: 'org.eclipse.jetty',                 name: 'jetty-servlet',                  version: '9.0.0.M4'
+    compile     group: 'org.eclipse.jetty',                 name: 'jetty-webapp',                   version: '9.0.0.M4'
+    compile     group: 'org.eclipse.jetty',                 name: 'jetty-jsp',                      version: '9.0.0.M4'
+    compile     group: 'com.sun.jersey',                    name: 'jersey-server',                  version: '1.17'
+    compile     group: 'com.sun.jersey',                    name: 'jersey-json',                    version: '1.17'
+    compile     group: 'com.sun.jersey.contribs',           name: 'jersey-guice',                   version: '1.17'
+    compile     group: 'com.google.inject',                 name: 'guice',                          version: '3.0'
+    compile     group: 'org.apache.shiro',                  name: 'shiro-core',                     version: '1.2.3'
+    compile     group: 'org.apache.shiro',                  name: 'shiro-guice',                    version: '1.2.3'
+    compile     group: 'org.apache.shiro',                  name: 'shiro-web',                      version: '1.2.3'
+    compile     group: 'org.secnod.shiro',                  name: 'shiro-jersey',                   version: '0.1.0'
+//    compile     group: 'org.hibernate',                     name: 'hibernate-core',                 version: '4.3.10.Final'
+}
