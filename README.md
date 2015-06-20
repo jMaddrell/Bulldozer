@@ -1,4 +1,6 @@
 # Bulldozer
+[![Build Status](https://travis-ci.org/jMaddrell/Bulldozer.svg)](https://travis-ci.org/jMaddrell/Bulldozer)
+
 Angular.JS (or React.JS) forum powered by JAX-RS
 
 ## Project Setup
