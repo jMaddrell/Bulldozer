@@ -28,5 +28,7 @@ The options available are:
 	```
 
 - Visit [Bulldozer](http://127.0.0.1:8080/ "Bulldozer")
-- Default username: test, Default password: test
 
+## Default account
+- Username: test
+- Password: test
