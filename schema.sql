@@ -74,6 +74,7 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('"users_usersCol_seq"
 
 INSERT INTO server_properties VALUES ('de.refactorco.Bulldozer.net.web.WebServer.host', '127.0.0.1');
 INSERT INTO server_properties VALUES ('de.refactorco.Bulldozer.net.web.WebServer.port', '8080');
+INSERT INTO server_properties VALUES ('de.refactorco.Bulldozer.net.web.WebServer.maxRequestsPerSec', '30');
 
 
 --
@@ -142,16 +143,6 @@ CREATE INDEX index_name ON users USING btree (username);
 --
 
 CREATE INDEX "index_usersCol" ON users USING btree (id);
-
-
---
--- Name: public; Type: ACL; Schema: -; Owner: Jordan
---
-
-REVOKE ALL ON SCHEMA public FROM PUBLIC;
-REVOKE ALL ON SCHEMA public FROM "Jordan";
-GRANT ALL ON SCHEMA public TO "Jordan";
-GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
 --
