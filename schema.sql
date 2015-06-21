@@ -16,6 +16,40 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: roles_permissions; Type: TABLE; Schema: public; Owner: bulldozer; Tablespace: 
+--
+
+CREATE TABLE roles_permissions (
+    role_name text NOT NULL,
+    permission text NOT NULL,
+    id integer NOT NULL
+);
+
+
+ALTER TABLE roles_permissions OWNER TO bulldozer;
+
+--
+-- Name: roles_permissions_idCol_seq; Type: SEQUENCE; Schema: public; Owner: bulldozer
+--
+
+CREATE SEQUENCE "roles_permissions_idCol_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE "roles_permissions_idCol_seq" OWNER TO bulldozer;
+
+--
+-- Name: roles_permissions_idCol_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bulldozer
+--
+
+ALTER SEQUENCE "roles_permissions_idCol_seq" OWNED BY roles_permissions.id;
+
+
+--
 -- Name: server_properties; Type: TABLE; Schema: public; Owner: bulldozer; Tablespace: 
 --
 
@@ -39,6 +73,40 @@ CREATE TABLE users (
 
 
 ALTER TABLE users OWNER TO bulldozer;
+
+--
+-- Name: users_roles; Type: TABLE; Schema: public; Owner: bulldozer; Tablespace: 
+--
+
+CREATE TABLE users_roles (
+    username text NOT NULL,
+    role_name text NOT NULL,
+    id integer NOT NULL
+);
+
+
+ALTER TABLE users_roles OWNER TO bulldozer;
+
+--
+-- Name: users_roles_idCol_seq; Type: SEQUENCE; Schema: public; Owner: bulldozer
+--
+
+CREATE SEQUENCE "users_roles_idCol_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE "users_roles_idCol_seq" OWNER TO bulldozer;
+
+--
+-- Name: users_roles_idCol_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bulldozer
+--
+
+ALTER SEQUENCE "users_roles_idCol_seq" OWNED BY users_roles.id;
+
 
 --
 -- Name: users_usersCol_seq; Type: SEQUENCE; Schema: public; Owner: bulldozer
@@ -65,7 +133,34 @@ ALTER SEQUENCE "users_usersCol_seq" OWNED BY users.id;
 -- Name: id; Type: DEFAULT; Schema: public; Owner: bulldozer
 --
 
+ALTER TABLE ONLY roles_permissions ALTER COLUMN id SET DEFAULT nextval('"roles_permissions_idCol_seq"'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bulldozer
+--
+
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('"users_usersCol_seq"'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bulldozer
+--
+
+ALTER TABLE ONLY users_roles ALTER COLUMN id SET DEFAULT nextval('"users_roles_idCol_seq"'::regclass);
+
+
+--
+-- Data for Name: roles_permissions; Type: TABLE DATA; Schema: public; Owner: bulldozer
+--
+
+
+
+--
+-- Name: roles_permissions_idCol_seq; Type: SEQUENCE SET; Schema: public; Owner: bulldozer
+--
+
+SELECT pg_catalog.setval('"roles_permissions_idCol_seq"', 1, false);
 
 
 --
@@ -85,10 +180,31 @@ INSERT INTO users VALUES ('test', '$shiro1$SHA-256$500000$lXaJB+sajeFMnSjg4loSCg
 
 
 --
+-- Data for Name: users_roles; Type: TABLE DATA; Schema: public; Owner: bulldozer
+--
+
+
+
+--
+-- Name: users_roles_idCol_seq; Type: SEQUENCE SET; Schema: public; Owner: bulldozer
+--
+
+SELECT pg_catalog.setval('"users_roles_idCol_seq"', 1, false);
+
+
+--
 -- Name: users_usersCol_seq; Type: SEQUENCE SET; Schema: public; Owner: bulldozer
 --
 
 SELECT pg_catalog.setval('"users_usersCol_seq"', 1, true);
+
+
+--
+-- Name: roles_permissions_unique_id; Type: CONSTRAINT; Schema: public; Owner: bulldozer; Tablespace: 
+--
+
+ALTER TABLE ONLY roles_permissions
+    ADD CONSTRAINT roles_permissions_unique_id PRIMARY KEY (id);
 
 
 --
@@ -124,6 +240,14 @@ ALTER TABLE ONLY users
 
 
 --
+-- Name: users_rolesUnique; Type: CONSTRAINT; Schema: public; Owner: bulldozer; Tablespace: 
+--
+
+ALTER TABLE ONLY users_roles
+    ADD CONSTRAINT "users_rolesUnique" PRIMARY KEY (id);
+
+
+--
 -- Name: users_usersCol_key; Type: CONSTRAINT; Schema: public; Owner: bulldozer; Tablespace: 
 --
 
@@ -139,10 +263,38 @@ CREATE INDEX index_name ON users USING btree (username);
 
 
 --
+-- Name: index_role_name; Type: INDEX; Schema: public; Owner: bulldozer; Tablespace: 
+--
+
+CREATE INDEX index_role_name ON users_roles USING btree (role_name);
+
+
+--
+-- Name: index_username; Type: INDEX; Schema: public; Owner: bulldozer; Tablespace: 
+--
+
+CREATE INDEX index_username ON users_roles USING btree (username);
+
+
+--
 -- Name: index_usersCol; Type: INDEX; Schema: public; Owner: bulldozer; Tablespace: 
 --
 
 CREATE INDEX "index_usersCol" ON users USING btree (id);
+
+
+--
+-- Name: roles_permissions_index_id; Type: INDEX; Schema: public; Owner: bulldozer; Tablespace: 
+--
+
+CREATE INDEX roles_permissions_index_id ON roles_permissions USING btree (id);
+
+
+--
+-- Name: roles_permissions_index_role_name; Type: INDEX; Schema: public; Owner: bulldozer; Tablespace: 
+--
+
+CREATE INDEX roles_permissions_index_role_name ON roles_permissions USING btree (role_name);
 
 
 --
