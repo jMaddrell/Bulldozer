@@ -19,7 +19,7 @@
                 <td><input type="password" name="password" maxlength="30"></td>
             </tr>
             <tr>
-                <td colspan="2" align="left"><input type="checkbox" name="rememberMe"><font size="2">Remember Me</font></td>
+                <td colspan="2" align="left"><input type="checkbox" name="rememberMe" value="true"><font size="2">Remember Me</font></td>
             </tr>
             <tr>
                 <td colspan="2" align="right"><input type="submit" name="submit" value="Login"></td>

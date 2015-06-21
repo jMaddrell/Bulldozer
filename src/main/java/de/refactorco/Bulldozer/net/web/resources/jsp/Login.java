@@ -30,7 +30,11 @@ public class Login {
     }
 
     @POST
-    public String login(@Context HttpServletRequest request, @Context HttpServletResponse response, @FormParam("username") String username, @FormParam("password") String password, @FormParam("rememberMe") boolean rememberMe) {
+    public String login(@Context HttpServletRequest request,
+                        @Context HttpServletResponse response,
+                        @FormParam("username") String username,
+                        @FormParam("password") String password,
+                        @FormParam("rememberMe") boolean rememberMe) {
         Subject currentUser = SecurityUtils.getSubject();
 
         if (currentUser.isAuthenticated()) {
@@ -38,6 +42,7 @@ public class Login {
             return "already logged in";
         } else {
             UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+            token.setRememberMe(rememberMe);
 
             try {
                 currentUser.login(token);

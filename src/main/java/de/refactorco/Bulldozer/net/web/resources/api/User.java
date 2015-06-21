@@ -1,9 +1,10 @@
 package de.refactorco.Bulldozer.net.web.resources.api;
 
 import com.google.inject.Inject;
+import de.refactorco.Bulldozer.beans.RegisterData;
 import de.refactorco.Bulldozer.dao.UserDAO;
-import de.refactorco.Bulldozer.net.web.beans.LoginData;
-import de.refactorco.Bulldozer.net.web.beans.SessionInfo;
+import de.refactorco.Bulldozer.beans.LoginData;
+import de.refactorco.Bulldozer.beans.SessionInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -51,11 +52,13 @@ public class User {
         Subject currentUser = SecurityUtils.getSubject();
         SessionInfo sessionInfo = getSessionInfo();
 
+
         if (currentUser.isAuthenticated()) {
             logger.info("Already logged in");
             sessionInfo.message = "Already logged in";
         } else {
             UsernamePasswordToken token = new UsernamePasswordToken(loginData.getUserName(), loginData.getPassword());
+            token.setRememberMe(loginData.isRememberMe());
 
             try {
                 currentUser.login(token);
@@ -72,7 +75,7 @@ public class User {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("register")
-    public SessionInfo createUser(LoginData loginData) {
+    public SessionInfo createUser(RegisterData registerData) {
         Subject currentUser = SecurityUtils.getSubject();
         SessionInfo sessionInfo = getSessionInfo();
 
@@ -80,9 +83,9 @@ public class User {
             logger.info("Already logged in");
             sessionInfo.message = "Already logged in";
         } else {
-            if (! userDAO.userExists(loginData.getUserName())) {
-                if (userDAO.createUser(loginData.getUserName(), loginData.getPassword())) {
-                    UsernamePasswordToken token = new UsernamePasswordToken(loginData.getUserName(), loginData.getPassword());
+            if (! userDAO.userExists(registerData.getUserName())) {
+                if (userDAO.createUser(registerData.getUserName(), registerData.getPassword(), registerData.getEmail())) {
+                    UsernamePasswordToken token = new UsernamePasswordToken(registerData.getUserName(), registerData.getPassword());
 
                     try {
                         currentUser.login(token);

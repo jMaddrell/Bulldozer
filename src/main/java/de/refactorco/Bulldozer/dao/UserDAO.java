@@ -60,15 +60,16 @@ public class UserDAO {
         return false;
     }
 
-    public boolean createUser(String username, String password) {
+    public boolean createUser(String username, String password, String email) {
         try (Connection connection = bulldozer.getDataSource().getConnection()) {
-            String query = "INSERT INTO users (username, password) VALUES (?, ?)";
+            String query = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
 
             DefaultPasswordService passwordService = new DefaultPasswordService();
 
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, username);
                 statement.setString(2, passwordService.encryptPassword(password));
+                statement.setString(3, email);
 
                 return (statement.executeUpdate() > 0);
             }

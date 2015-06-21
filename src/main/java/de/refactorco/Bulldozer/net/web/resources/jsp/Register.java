@@ -34,14 +34,18 @@ public class Register {
     }
 
     @POST
-    public String register(@Context HttpServletRequest request, @Context HttpServletResponse response, @FormParam("username") String username, @FormParam("password") String password) {
+    public String register(@Context HttpServletRequest request,
+                           @Context HttpServletResponse response,
+                           @FormParam("username") String username,
+                           @FormParam("password") String password,
+                           @FormParam("email") String email) {
         Subject currentUser = SecurityUtils.getSubject();
 
         if (currentUser.isAuthenticated()) {
             logger.info("Already logged in");
             return "already logged in";
         } else {
-            if (userDAO.createUser(username, password)) {
+            if (userDAO.createUser(username, password, email)) {
                 UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 
                 try {

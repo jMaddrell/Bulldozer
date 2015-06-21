@@ -1,4 +1,4 @@
-package de.refactorco.Bulldozer.net.web.beans;
+package de.refactorco.Bulldozer.beans;
 
 import javax.xml.bind.annotation.XmlRootElement;
 

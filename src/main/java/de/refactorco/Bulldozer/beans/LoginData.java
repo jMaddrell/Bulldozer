@@ -1,4 +1,4 @@
-package de.refactorco.Bulldozer.net.web.beans;
+package de.refactorco.Bulldozer.beans;
 
 /**
  * Bulldozer,
@@ -7,13 +7,15 @@ package de.refactorco.Bulldozer.net.web.beans;
 public class LoginData {
     private String userName;
     private String password;
+    private boolean rememberMe;
 
     public LoginData() {
     }
 
-    public LoginData(String userName, String password) {
+    public LoginData(String userName, String password, boolean rememberMe) {
         this.userName = userName;
         this.password = password;
+        this.rememberMe = rememberMe;
     }
 
     public String getUserName() {
@@ -30,5 +32,13 @@ public class LoginData {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isRememberMe() {
+        return rememberMe;
+    }
+
+    public void setRememberMe(boolean rememberMe) {
+        this.rememberMe = rememberMe;
     }
 }
