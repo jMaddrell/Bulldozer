@@ -15,6 +15,10 @@
                 <td><input type="text" name="username" maxlength="30"></td>
             </tr>
             <tr>
+                <td>Email:</td>
+                <td><input type="text" name="email" maxlength="30"></td>
+            </tr>
+            <tr>
                 <td>Password:</td>
                 <td><input type="password" name="password" maxlength="30"></td>
             </tr>

@@ -51,4 +51,5 @@ dependencies {
     compile     group: 'org.secnod.shiro',                  name: 'shiro-jersey',                   version: '0.1.0'
     compile     group: 'com.hazelcast',                     name: 'hazelcast',                      version: '3.5'
     compile     group: 'org.hibernate',                     name: 'hibernate-core',                 version: '4.3.10.Final'
+    compile     group: 'commons-validator',                 name: 'commons-validator',              version: '1.4.1'
 }

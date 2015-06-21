@@ -68,7 +68,8 @@ ALTER TABLE server_properties OWNER TO bulldozer;
 CREATE TABLE users (
     username text NOT NULL,
     password text NOT NULL,
-    id integer NOT NULL
+    id integer NOT NULL,
+    email text NOT NULL
 );
 
 
@@ -176,7 +177,7 @@ INSERT INTO server_properties VALUES ('de.refactorco.Bulldozer.net.web.WebServer
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: bulldozer
 --
 
-INSERT INTO users VALUES ('test', '$shiro1$SHA-256$500000$lXaJB+sajeFMnSjg4loSCg==$WGj9VeaHAmCKwDRogWCJD0oUwE15VVUO7eQsPnW3J1k=', 1);
+INSERT INTO users VALUES ('test', '$shiro1$SHA-256$500000$lXaJB+sajeFMnSjg4loSCg==$WGj9VeaHAmCKwDRogWCJD0oUwE15VVUO7eQsPnW3J1k=', 1, 'test@test.com');
 
 
 --
@@ -216,6 +217,14 @@ ALTER TABLE ONLY server_properties
 
 
 --
+-- Name: unique_email; Type: CONSTRAINT; Schema: public; Owner: bulldozer; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT unique_email UNIQUE (email);
+
+
+--
 -- Name: unique_id; Type: CONSTRAINT; Schema: public; Owner: bulldozer; Tablespace: 
 --
 
@@ -240,6 +249,14 @@ ALTER TABLE ONLY users
 
 
 --
+-- Name: users_email_key; Type: CONSTRAINT; Schema: public; Owner: bulldozer; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_email_key UNIQUE (email);
+
+
+--
 -- Name: users_rolesUnique; Type: CONSTRAINT; Schema: public; Owner: bulldozer; Tablespace: 
 --
 
@@ -253,6 +270,13 @@ ALTER TABLE ONLY users_roles
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT "users_usersCol_key" UNIQUE (id);
+
+
+--
+-- Name: index_email; Type: INDEX; Schema: public; Owner: bulldozer; Tablespace: 
+--
+
+CREATE INDEX index_email ON users USING btree (email);
 
 
 --
@@ -295,7 +319,6 @@ CREATE INDEX roles_permissions_index_id ON roles_permissions USING btree (id);
 --
 
 CREATE INDEX roles_permissions_index_role_name ON roles_permissions USING btree (role_name);
-
 
 --
 -- PostgreSQL database dump complete

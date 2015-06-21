@@ -3,6 +3,7 @@ package de.refactorco.Bulldozer.net.web.resources.jsp;
 import com.google.inject.Inject;
 import com.sun.jersey.api.view.Viewable;
 import de.refactorco.Bulldozer.dao.UserDAO;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -36,16 +38,17 @@ public class Register {
     @POST
     public String register(@Context HttpServletRequest request,
                            @Context HttpServletResponse response,
-                           @FormParam("username") String username,
-                           @FormParam("password") String password,
-                           @FormParam("email") String email) {
+                           @NotNull @FormParam("username") String username,
+                           @NotNull @FormParam("password") String password,
+                           @NotNull @FormParam("email") String email) {
         Subject currentUser = SecurityUtils.getSubject();
 
         if (currentUser.isAuthenticated()) {
             logger.info("Already logged in");
             return "already logged in";
         } else {
-            if (userDAO.createUser(username, password, email)) {
+            if (EmailValidator.getInstance().isValid(email)
+                && userDAO.createUser(username, password, email)) {
                 UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 
                 try {

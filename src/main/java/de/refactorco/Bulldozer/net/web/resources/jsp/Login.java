@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -32,8 +33,8 @@ public class Login {
     @POST
     public String login(@Context HttpServletRequest request,
                         @Context HttpServletResponse response,
-                        @FormParam("username") String username,
-                        @FormParam("password") String password,
+                        @NotNull @FormParam("username") String username,
+                        @NotNull @FormParam("password") String password,
                         @FormParam("rememberMe") boolean rememberMe) {
         Subject currentUser = SecurityUtils.getSubject();
 
