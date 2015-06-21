@@ -58,11 +58,12 @@ public class WebServer implements Runnable {
             webApp.setInitParameter("com.sun.jersey.api.json.POJOMappingFeature", "true");
             webApp.addEventListener(new EnvironmentLoaderListener());
             webApp.addEventListener(new BulldozerGuiceServletContextListener());
-            webApp.addFilter(GuiceFilter.class, "/*", null);
 
             FilterHolder dosHolder = new FilterHolder(CloseableDoSFilter.class);
             dosHolder.setInitParameter("maxRequestsPerSec", maxRequestsPerSec);
             webApp.addFilter(dosHolder, "/*", null);
+
+            webApp.addFilter(GuiceFilter.class, "/*", null);
 
             HandlerList handlers = new HandlerList();
             handlers.setHandlers(new Handler[]{resourceHandler, webApp});
