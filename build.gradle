@@ -49,5 +49,6 @@ dependencies {
     compile     group: 'org.apache.shiro',                  name: 'shiro-guice',                    version: '1.2.3'
     compile     group: 'org.apache.shiro',                  name: 'shiro-web',                      version: '1.2.3'
     compile     group: 'org.secnod.shiro',                  name: 'shiro-jersey',                   version: '0.1.0'
-//    compile     group: 'org.hibernate',                     name: 'hibernate-core',                 version: '4.3.10.Final'
+    compile     group: 'com.hazelcast',                     name: 'hazelcast',                      version: '3.5'
+    compile     group: 'org.hibernate',                     name: 'hibernate-core',                 version: '4.3.10.Final'
 }
